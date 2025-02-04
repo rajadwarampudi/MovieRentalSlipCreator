@@ -1,8 +1,8 @@
-package com.practice.assignment;
+package com.practice.assignment.rentalinformationservice;
 
 import java.util.HashMap;
 
-public class RentalInfo {
+public class RentalInformation {
 
   public String statement(Customer customer) {
     HashMap<String, Movie> movies = new HashMap();

@@ -1,8 +1,8 @@
-package com.practice.assignment;
+package com.practice.assignment.rentalinformationservice;
 
 public class Movie {
-    private String title;
-    private String code;
+    private final String title;
+    private final String code;
 
     public Movie(String title, String code) {
 

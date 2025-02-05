@@ -7,13 +7,13 @@ import java.util.Map;
 public class RentalInformationGenerator {
 
     private static final Map<String, Movie> movies = populateMovieInformationMap();
-    public static final int DAY_RENTAL_FOR_NEW_TYPE_MOVIE = 3;
-    public static final int DEFAULT_FREQUENT_BONUS_POINTS = 1;
-    public static final double DEFAULT_RENTAL_FOR_REGULAR_MOVIE_FOR_STANDARD_RENTAL_DAYS = 2.0;
-    public static final double DEFAULT_RENTAL_FOR_CHILDREN_MOVIE__STANDARD_RENTAL_DAYS = 1.5;
-    public static final int STANDARD_RENTAL_DAYS_FOR_REGULAR_MOVIE = 2;
-    public static final int STANDARD_RENTAL_MOVIE_FOR_CHILDREN_MOVIE = 3;
-    public static final double DAY_RENTAL = 1.5;
+    private static final int DAY_RENTAL_FOR_NEW_TYPE_MOVIE = 3;
+    private static final int DEFAULT_FREQUENT_BONUS_POINTS = 1;
+    private static final double DEFAULT_RENTAL_FOR_REGULAR_MOVIE_FOR_STANDARD_RENTAL_DAYS = 2.0;
+    private static final double DEFAULT_RENTAL_FOR_CHILDREN_MOVIE__STANDARD_RENTAL_DAYS = 1.5;
+    private static final int STANDARD_RENTAL_DAYS_FOR_REGULAR_MOVIE = 2;
+    private static final int STANDARD_RENTAL_MOVIE_FOR_CHILDREN_MOVIE = 3;
+    private static final double DAY_RENTAL = 1.5;
 
     /**
      * This method generates the rental statement for the given customer

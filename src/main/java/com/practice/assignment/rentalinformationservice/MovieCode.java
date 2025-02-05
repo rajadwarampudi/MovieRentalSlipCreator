@@ -1,7 +1,7 @@
 package com.practice.assignment.rentalinformationservice;
 
 public enum MovieCode {
-    CHILDRENS("childrens"),
+    CHILDREN("childrens"),
     NEW("new"),
     REGULAR("regular"),
     INVALID("invalid");

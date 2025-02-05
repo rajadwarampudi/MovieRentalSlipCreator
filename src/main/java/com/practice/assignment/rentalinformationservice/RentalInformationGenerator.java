@@ -21,31 +21,25 @@ public class RentalInformationGenerator {
      * The rental amount for each movie is calculated based on the movie code and the number of rental days
      * The frequent bonus points by default 1 for each movie, and an additional point for a NEW type movie with
      * the rental days more than 2.
+     *
      * @param customer The customer object that holds the customer's info and her/his rental information
      * @return generated statement in String format
      */
-    public String generateStatement(Customer customer) {
+    public String generateStatement(Customer customer) throws InvalidMovieInformationException {
         double totalRentalAmount = 0;
         int frequentBonusPoints = 0;
         StringBuilder statement = new StringBuilder();
-        statement.append("Rental Record for ").append(customer.getName()).append("\n");
-        for (MovieRentalInformation rentalInformation : customer.getRentalInformation()) {
-            try {
-                Movie currentMovie = getCurrentMovie(rentalInformation.movieId());
-                MovieCode movieCode = currentMovie.code();
-                double rentalAmountForCurrentMovie = calculateAmount(movieCode, rentalInformation.days());
+        statement.append("Rental Record for ").append(customer.name()).append("\n");
+        for (MovieRentalInformation rentalInformation : customer.rentals()) {
+            Movie currentMovie = getCurrentMovie(rentalInformation.movieId());
+            MovieCode movieCode = currentMovie.code();
+            double rentalAmountForCurrentMovie = calculateAmount(movieCode, rentalInformation.days());
 
-                statement.append("\t").append(currentMovie.title()).append("\t")
-                        .append(rentalAmountForCurrentMovie).append("\n");
+            statement.append("\t").append(currentMovie.title()).append("\t")
+                    .append(rentalAmountForCurrentMovie).append("\n");
 
-                totalRentalAmount += rentalAmountForCurrentMovie;
-                frequentBonusPoints += getFrequentBonusPoints(movieCode, rentalInformation.days());
-
-            } catch (InvalidMovieInformationException e) {
-                System.out.println("Exception occurred while processing customer : " + customer.getName()
-                        + ". error: " + e.getMessage());
-            }
-
+            totalRentalAmount += rentalAmountForCurrentMovie;
+            frequentBonusPoints += getFrequentBonusPoints(movieCode, rentalInformation.days());
         }
         statement.append("Amount owed is ").append(totalRentalAmount).append("\n");
         statement.append("You earned ").append(frequentBonusPoints).append(" frequent points\n");
@@ -57,11 +51,11 @@ public class RentalInformationGenerator {
         return Map.of(
                 "F001", new Movie("You've Got Mail", MovieCode.REGULAR),
                 "F002", new Movie("Matrix", MovieCode.REGULAR),
-                "F003", new Movie("Cars", MovieCode.CHILDRENS),
+                "F003", new Movie("Cars", MovieCode.CHILDREN),
                 "F004", new Movie("Fast & Furious X", MovieCode.NEW));
     }
 
-    private static Movie getCurrentMovie(String movieId) throws InvalidMovieInformationException{
+    private static Movie getCurrentMovie(String movieId) throws InvalidMovieInformationException {
         if (movies.containsKey(movieId)) {
             return movies.get(movieId);
         } else {
@@ -79,9 +73,9 @@ public class RentalInformationGenerator {
         return switch (movieCode) {
             case REGULAR -> getRentalForRegularMovie(rentalDays);
             case NEW -> rentalDays * DAY_RENTAL_FOR_NEW_TYPE_MOVIE;
-            case CHILDRENS -> getRentalForChildrenMovie(rentalDays);
+            case CHILDREN -> getRentalForChildrenMovie(rentalDays);
             default -> throw new InvalidMovieInformationException("Moviecode: " + movieCode + ": "
-                            + movieCode.getDescription() + "is not supported");
+                    + movieCode.getDescription() + "is not supported");
         };
     }
 

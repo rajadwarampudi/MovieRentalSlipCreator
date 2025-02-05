@@ -2,9 +2,9 @@ package com.practice.assignment.rentalinformationservice;
 
 public class Movie {
     private final String title;
-    private final String code;
+    private final MovieCode code;
 
-    public Movie(String title, String code) {
+    public Movie(String title, MovieCode code) {
 
         this.title = title;
         this.code = code;
@@ -14,7 +14,7 @@ public class Movie {
         return title;
     }
 
-    public String getCode() {
+    public MovieCode getCode() {
         return code;
     }
 }

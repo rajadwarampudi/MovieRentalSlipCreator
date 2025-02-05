@@ -4,9 +4,9 @@ import java.util.List;
 
 public class Customer {
     private final String name;
-    private final List<MovieRental> rentals;
+    private final List<MovieRentalInformation> rentals;
 
-    public Customer(String name, List<MovieRental> rentals) {
+    public Customer(String name, List<MovieRentalInformation> rentals) {
         this.name = name;
         this.rentals = rentals;
     }
@@ -15,7 +15,7 @@ public class Customer {
         return name;
     }
 
-    public List<MovieRental> getRentals() {
+    public List<MovieRentalInformation> getRentalInformation() {
         return rentals;
     }
 }

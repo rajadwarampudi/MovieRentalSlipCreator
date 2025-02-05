@@ -31,15 +31,15 @@ public class RentalInformationGenerator {
         statement.append("Rental Record for ").append(customer.getName()).append("\n");
         for (MovieRentalInformation rentalInformation : customer.getRentalInformation()) {
             try {
-                Movie currentMovie = getCurrentMovie(rentalInformation.getMovieId());
-                MovieCode movieCode = currentMovie.getCode();
-                double rentalAmountForCurrentMovie = calculateAmount(movieCode, rentalInformation.getDays());
+                Movie currentMovie = getCurrentMovie(rentalInformation.movieId());
+                MovieCode movieCode = currentMovie.code();
+                double rentalAmountForCurrentMovie = calculateAmount(movieCode, rentalInformation.days());
 
-                statement.append("\t").append(currentMovie.getTitle()).append("\t")
+                statement.append("\t").append(currentMovie.title()).append("\t")
                         .append(rentalAmountForCurrentMovie).append("\n");
 
                 totalRentalAmount += rentalAmountForCurrentMovie;
-                frequentBonusPoints += getFrequentBonusPoints(movieCode, rentalInformation.getDays());
+                frequentBonusPoints += getFrequentBonusPoints(movieCode, rentalInformation.days());
 
             } catch (InvalidMovieInformationException e) {
                 System.out.println("Exception occurred while processing customer : " + customer.getName()

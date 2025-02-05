@@ -1,7 +1,7 @@
 package com.practice.assignment;
 
-import com.practice.assignment.rentalinformationservice.Customer;
-import com.practice.assignment.rentalinformationservice.MovieRentalInformation;
+import com.practice.assignment.rentalinformationservice.model.Customer;
+import com.practice.assignment.rentalinformationservice.model.MovieRentalInformation;
 import com.practice.assignment.rentalinformationservice.RentalInformationGenerator;
 import com.practice.assignment.rentalinformationservice.exceptions.InvalidMovieInformationException;
 

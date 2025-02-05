@@ -1,4 +1,4 @@
-package com.practice.assignment.rentalinformationservice;
+package com.practice.assignment.rentalinformationservice.model;
 
 import java.util.List;
 

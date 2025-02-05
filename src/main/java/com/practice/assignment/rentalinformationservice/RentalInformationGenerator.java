@@ -1,6 +1,9 @@
 package com.practice.assignment.rentalinformationservice;
 
 import com.practice.assignment.rentalinformationservice.exceptions.InvalidMovieInformationException;
+import com.practice.assignment.rentalinformationservice.model.Customer;
+import com.practice.assignment.rentalinformationservice.model.Movie;
+import com.practice.assignment.rentalinformationservice.model.MovieRentalInformation;
 
 import java.util.Map;
 

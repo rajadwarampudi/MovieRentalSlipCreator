@@ -1,6 +1,8 @@
 package com.practice.assignment.rentalinformationservice;
 
 import com.practice.assignment.rentalinformationservice.exceptions.InvalidMovieInformationException;
+import com.practice.assignment.rentalinformationservice.model.Customer;
+import com.practice.assignment.rentalinformationservice.model.MovieRentalInformation;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

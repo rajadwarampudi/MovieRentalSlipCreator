@@ -6,8 +6,11 @@ import com.practice.assignment.rentalinformationservice.model.Movie;
 import com.practice.assignment.rentalinformationservice.model.MovieRentalInformation;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class RentalInformationGenerator {
+
+    private static final Logger LOGGER = Logger.getLogger(RentalInformationGenerator.class.getName());
 
     private static final Map<String, Movie> movies = populateMovieInformationMap();
     private static final int DAY_RENTAL_FOR_NEW_TYPE_MOVIE = 3;
@@ -62,6 +65,7 @@ public class RentalInformationGenerator {
         if (movies.containsKey(movieId)) {
             return movies.get(movieId);
         } else {
+            LOGGER.severe("Invalid movie id: " + movieId);
             throw new InvalidMovieInformationException("Invalid movie id: " + movieId);
         }
     }
@@ -77,8 +81,11 @@ public class RentalInformationGenerator {
             case REGULAR -> getRentalForRegularMovie(rentalDays);
             case NEW -> rentalDays * DAY_RENTAL_FOR_NEW_TYPE_MOVIE;
             case CHILDREN -> getRentalForChildrenMovie(rentalDays);
-            default -> throw new InvalidMovieInformationException("Moviecode: " + movieCode + ": "
-                    + movieCode.getDescription() + "is not supported");
+            default -> {
+                LOGGER.severe("Invalid movie code: " + movieCode);
+                throw new InvalidMovieInformationException("Moviecode: " + movieCode + ": "
+                        + movieCode.getDescription() + "is not supported");
+            }
         };
     }
 

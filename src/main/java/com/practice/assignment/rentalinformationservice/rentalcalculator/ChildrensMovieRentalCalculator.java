@@ -7,13 +7,11 @@ public class ChildrensMovieRentalCalculator implements MovieRentalCalculator {
     private static final int DEFAULT_FREQUENT_BONUS_POINTS = 1;
     private static final int STANDARD_RENTAL_MOVIE_FOR_CHILDREN_MOVIE = 3;
 
-
     private final int rentalDays;
 
     ChildrensMovieRentalCalculator(int rentalDays) {
         this.rentalDays = rentalDays;
     }
-
 
     @Override
     public double calculateRent() {

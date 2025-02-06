@@ -10,7 +10,7 @@ public class MovieRentalCalculatorFactory {
             case NEW -> new NewMovieRentalCalculator(rentalDays);
             case CHILDREN -> new ChildrensMovieRentalCalculator(rentalDays);
             default -> throw new InvalidMovieInformationException("Moviecode: " + movieCode + ": "
-                    + movieCode.getDescription() + "is not supported");
+                    + movieCode.getDescription() + " is not supported");
         };
     }
 }

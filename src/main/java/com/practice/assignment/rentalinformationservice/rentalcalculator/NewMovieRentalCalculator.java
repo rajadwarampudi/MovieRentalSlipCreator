@@ -11,7 +11,6 @@ public class NewMovieRentalCalculator implements MovieRentalCalculator {
         this.rentalDays = rentalDays;
     }
 
-
     @Override
     public double calculateRent() {
         return rentalDays * DAY_RENTAL_FOR_NEW_TYPE_MOVIE;

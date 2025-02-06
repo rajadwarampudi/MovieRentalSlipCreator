@@ -4,6 +4,8 @@ import com.practice.assignment.rentalinformationservice.exceptions.InvalidMovieI
 import com.practice.assignment.rentalinformationservice.model.Customer;
 import com.practice.assignment.rentalinformationservice.model.Movie;
 import com.practice.assignment.rentalinformationservice.model.MovieRentalInformation;
+import com.practice.assignment.rentalinformationservice.rentalcalculator.MovieRentalCalculator;
+import com.practice.assignment.rentalinformationservice.rentalcalculator.MovieRentalCalculatorFactory;
 
 import java.util.Map;
 import java.util.logging.Logger;
@@ -13,13 +15,6 @@ public class RentalInformationGenerator {
     private static final Logger LOGGER = Logger.getLogger(RentalInformationGenerator.class.getName());
 
     private static final Map<String, Movie> movies = populateMovieInformationMap();
-    private static final int DAY_RENTAL_FOR_NEW_TYPE_MOVIE = 3;
-    private static final int DEFAULT_FREQUENT_BONUS_POINTS = 1;
-    private static final double DEFAULT_RENTAL_FOR_REGULAR_MOVIE_FOR_STANDARD_RENTAL_DAYS = 2.0;
-    private static final double DEFAULT_RENTAL_FOR_CHILDREN_MOVIE__STANDARD_RENTAL_DAYS = 1.5;
-    private static final int STANDARD_RENTAL_DAYS_FOR_REGULAR_MOVIE = 2;
-    private static final int STANDARD_RENTAL_MOVIE_FOR_CHILDREN_MOVIE = 3;
-    private static final double DAY_RENTAL = 1.5;
 
     /**
      * This method generates the rental statement for the given customer
@@ -36,16 +31,20 @@ public class RentalInformationGenerator {
         int frequentBonusPoints = 0;
         StringBuilder statement = new StringBuilder();
         statement.append("Rental Record for ").append(customer.name()).append("\n");
+        MovieRentalCalculatorFactory movieRentalCalculatorFactory = new MovieRentalCalculatorFactory();
         for (MovieRentalInformation rentalInformation : customer.rentals()) {
             Movie currentMovie = getCurrentMovie(rentalInformation.movieId());
             MovieCode movieCode = currentMovie.code();
-            double rentalAmountForCurrentMovie = calculateAmount(movieCode, rentalInformation.days());
+            MovieRentalCalculator movieRentalCalculator = movieRentalCalculatorFactory.getMovieRentalCalculator(
+                    movieCode, rentalInformation.days());
+
+            double rentalAmountForCurrentMovie = movieRentalCalculator.calculateRent();
 
             statement.append("\t").append(currentMovie.title()).append("\t")
                     .append(rentalAmountForCurrentMovie).append("\n");
 
             totalRentalAmount += rentalAmountForCurrentMovie;
-            frequentBonusPoints += getFrequentBonusPoints(movieCode, rentalInformation.days());
+            frequentBonusPoints += movieRentalCalculator.calculateBonusPoints();
         }
         statement.append("Amount owed is ").append(totalRentalAmount).append("\n");
         statement.append("You earned ").append(frequentBonusPoints).append(" frequent points\n");
@@ -68,40 +67,5 @@ public class RentalInformationGenerator {
             LOGGER.severe("Invalid movie id: " + movieId);
             throw new InvalidMovieInformationException("Invalid movie id: " + movieId);
         }
-    }
-
-    private int getFrequentBonusPoints(MovieCode movieCode, int rentalDays) {
-        int frequentBonusPoints = DEFAULT_FREQUENT_BONUS_POINTS;
-        return (MovieCode.NEW == movieCode && rentalDays > 2) ? frequentBonusPoints + 1 : frequentBonusPoints;
-    }
-
-
-    private double calculateAmount(MovieCode movieCode, int rentalDays) throws InvalidMovieInformationException {
-        return switch (movieCode) {
-            case REGULAR -> getRentalForRegularMovie(rentalDays);
-            case NEW -> rentalDays * DAY_RENTAL_FOR_NEW_TYPE_MOVIE;
-            case CHILDREN -> getRentalForChildrenMovie(rentalDays);
-            default -> {
-                LOGGER.severe("Invalid movie code: " + movieCode);
-                throw new InvalidMovieInformationException("Moviecode: " + movieCode + ": "
-                        + movieCode.getDescription() + "is not supported");
-            }
-        };
-    }
-
-    private double getRentalForRegularMovie(int rentalDays) {
-        double rentalAmount = DEFAULT_RENTAL_FOR_REGULAR_MOVIE_FOR_STANDARD_RENTAL_DAYS;
-        if (rentalDays > STANDARD_RENTAL_DAYS_FOR_REGULAR_MOVIE) {
-            rentalAmount += (rentalDays - STANDARD_RENTAL_DAYS_FOR_REGULAR_MOVIE) * DAY_RENTAL;
-        }
-        return rentalAmount;
-    }
-
-    private double getRentalForChildrenMovie(int rentalDays) {
-        double rentalAmount = DEFAULT_RENTAL_FOR_CHILDREN_MOVIE__STANDARD_RENTAL_DAYS;
-        if (rentalDays > STANDARD_RENTAL_MOVIE_FOR_CHILDREN_MOVIE) {
-            rentalAmount += (rentalDays - STANDARD_RENTAL_MOVIE_FOR_CHILDREN_MOVIE) * DAY_RENTAL;
-        }
-        return rentalAmount;
     }
 }

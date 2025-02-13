@@ -5,7 +5,7 @@ import com.practice.assignment.rentalinformationservice.model.Customer;
 import com.practice.assignment.rentalinformationservice.model.MovieRentalInformation;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,7 +22,7 @@ public class RentalInformationGeneratorTest {
                 You earned 2 frequent points
                 """;
 
-        Customer customer = new Customer("C. U. Stomer", Arrays.asList(
+        Customer customer = new Customer("C. U. Stomer", List.of(
                 new MovieRentalInformation("F001", 3),
                 new MovieRentalInformation("F002", 1)));
 
@@ -34,7 +34,7 @@ public class RentalInformationGeneratorTest {
 
     @Test
     public void testStatementGenerationWithUnknownMovieId() {
-        Customer customer = new Customer("C. U. Stomer", Arrays.asList(
+        Customer customer = new Customer("C. U. Stomer", List.of(
                 new MovieRentalInformation("F001", 3),
                 new MovieRentalInformation("F022", 1)));
 
@@ -57,7 +57,7 @@ public class RentalInformationGeneratorTest {
                 You earned 5 frequent points
                 """;
 
-        Customer customer = new Customer("John smith", Arrays.asList(
+        Customer customer = new Customer("John smith", List.of(
                 new MovieRentalInformation("F001", 16),
                 new MovieRentalInformation("F002", 20),
                 new MovieRentalInformation("F003", 18),
@@ -81,7 +81,7 @@ public class RentalInformationGeneratorTest {
                 You earned 4 frequent points
                 """;
 
-        Customer customer = new Customer("Thomas håkansson", Arrays.asList(
+        Customer customer = new Customer("Thomas håkansson", List.of(
                 new MovieRentalInformation("F001", 1),
                 new MovieRentalInformation("F002", 1),
                 new MovieRentalInformation("F003", 1),

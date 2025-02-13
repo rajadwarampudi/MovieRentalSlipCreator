@@ -3,10 +3,13 @@ package com.practice.assignment.rentalinformationservice;
 import com.practice.assignment.rentalinformationservice.exceptions.InvalidMovieInformationException;
 import com.practice.assignment.rentalinformationservice.model.Customer;
 import com.practice.assignment.rentalinformationservice.model.Movie;
+import com.practice.assignment.rentalinformationservice.model.MovieCode;
 import com.practice.assignment.rentalinformationservice.model.MovieRentalInformation;
 import com.practice.assignment.rentalinformationservice.rentalcalculator.MovieRentalCalculator;
 import com.practice.assignment.rentalinformationservice.rentalcalculator.MovieRentalCalculatorFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -31,26 +34,39 @@ public class RentalInformationGenerator {
         int frequentBonusPoints = 0;
         StringBuilder statement = new StringBuilder();
         statement.append("Rental Record for ").append(customer.name()).append("\n");
-        MovieRentalCalculatorFactory movieRentalCalculatorFactory = new MovieRentalCalculatorFactory();
-        for (MovieRentalInformation rentalInformation : customer.rentals()) {
-            Movie currentMovie = getCurrentMovie(rentalInformation.movieId());
-            MovieCode movieCode = currentMovie.code();
-            MovieRentalCalculator movieRentalCalculator = movieRentalCalculatorFactory.getMovieRentalCalculator(
-                    movieCode, rentalInformation.days());
 
-            double rentalAmountForCurrentMovie = movieRentalCalculator.calculateRent();
+        List<RentalData> rentalDataList = generateRentalData(customer.rentals());
+        for (RentalData rentalData : rentalDataList) {
+            statement.append("\t").append(rentalData.movieTitle).append("\t")
+                    .append(rentalData.rentalAmount).append("\n");
 
-            statement.append("\t").append(currentMovie.title()).append("\t")
-                    .append(rentalAmountForCurrentMovie).append("\n");
-
-            totalRentalAmount += rentalAmountForCurrentMovie;
-            frequentBonusPoints += movieRentalCalculator.calculateBonusPoints();
+            totalRentalAmount += rentalData.rentalAmount;
+            frequentBonusPoints += rentalData.bonusPoints;
         }
         statement.append("Amount owed is ").append(totalRentalAmount).append("\n");
         statement.append("You earned ").append(frequentBonusPoints).append(" frequent points\n");
 
         return statement.toString();
     }
+
+    private List<RentalData> generateRentalData(List<MovieRentalInformation> rentals) throws InvalidMovieInformationException {
+        List<RentalData> rentalDataList = new ArrayList<>();
+        MovieRentalCalculatorFactory movieRentalCalculatorFactory = new MovieRentalCalculatorFactory();
+        for (MovieRentalInformation rentalInformation : rentals) {
+            Movie currentMovie = getCurrentMovie(rentalInformation.movieId());
+            MovieCode movieCode = currentMovie.code();
+            MovieRentalCalculator movieRentalCalculator = movieRentalCalculatorFactory.getMovieRentalCalculator(
+                    movieCode, rentalInformation.days());
+
+            double rentalAmountForCurrentMovie = movieRentalCalculator.calculateRent();
+            int bonusPoints = movieRentalCalculator.calculateBonusPoints();
+            RentalData rentalData = new RentalData(currentMovie.title(), rentalAmountForCurrentMovie, bonusPoints);
+            rentalDataList.add(rentalData);
+        }
+        return rentalDataList;
+    }
+
+    private record RentalData(String movieTitle, double rentalAmount, int bonusPoints) {}
 
     private static Map<String, Movie> populateMovieInformationMap() {
         return Map.of(

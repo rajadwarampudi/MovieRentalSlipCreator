@@ -5,7 +5,7 @@ import com.practice.assignment.rentalinformationservice.model.MovieRentalInforma
 import com.practice.assignment.rentalinformationservice.RentalInformationGenerator;
 import com.practice.assignment.rentalinformationservice.exceptions.InvalidMovieInformationException;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class MovieRentalSlipCreator {
@@ -14,7 +14,7 @@ public class MovieRentalSlipCreator {
 
     public static void main(String[] args) {
 
-        Customer customer = new Customer("C. U. Stomer", Arrays.asList(
+        Customer customer = new Customer("C. U. Stomer", List.of(
                 new MovieRentalInformation("F001", 3),
                 new MovieRentalInformation("F002", 1)));
 

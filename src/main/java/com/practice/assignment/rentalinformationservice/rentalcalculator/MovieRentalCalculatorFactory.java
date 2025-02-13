@@ -1,6 +1,6 @@
 package com.practice.assignment.rentalinformationservice.rentalcalculator;
 
-import com.practice.assignment.rentalinformationservice.MovieCode;
+import com.practice.assignment.rentalinformationservice.model.MovieCode;
 import com.practice.assignment.rentalinformationservice.exceptions.InvalidMovieInformationException;
 
 public class MovieRentalCalculatorFactory {
